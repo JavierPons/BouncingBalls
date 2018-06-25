@@ -3,6 +3,12 @@
 var para = document.querySelector('p');
 var count = 0;
 
+var pregunta = document.querySelector('h3');
+var pregunta1 = document.querySelector('input');
+var pregunta2 = document.querySelector('button');
+
+var valueInput = 0;
+
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 
@@ -10,6 +16,12 @@ var width = canvas.width = window.innerWidth;
 var height = canvas.height = window.innerHeight;
 
 // function to generate random number
+
+
+function inputValue() {
+
+  valueInput = document.getElementById('myInput').value;
+}
 
 function random(min,max) {
   var num = Math.floor(Math.random()*(max-min)) + min;
@@ -117,16 +129,18 @@ Ball.prototype.constructor = Ball;
     }
   };
 
+  
+
   EvilCircle.prototype.setControls = function() {
     var _this = this;
   window.onkeydown = function(e) {
-    if(e.keyCode === 65) { // a
+    if(e.keyCode === 37) { // left arrow
       _this.x -= _this.velX;
-    } else if(e.keyCode === 68) { // d
+    } else if(e.keyCode === 39) { // right arrow
       _this.x += _this.velX;
-    } else if(e.keyCode === 87) { // w
+    } else if(e.keyCode === 38) { // up arrow 
       _this.y -= _this.velY;
-    } else if(e.keyCode === 83) { // s
+    } else if(e.keyCode === 40) { // down arrow 
       _this.y += _this.velY;
     }
   };
@@ -143,6 +157,11 @@ Ball.prototype.constructor = Ball;
           balls[j].exists = false;
           count--;
           para.textContent = 'Ball count: ' + count;
+          if(count === 0) {
+            para.textContent = 'You Win, you are a Champion!';
+            pregunta.textContent = ''; 
+          }
+
         }
       }
     }
@@ -158,8 +177,10 @@ evil.setControls();
   function loop() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
     ctx.fillRect(0, 0, width, height);
+
+    
   
-    while (balls.length < 15) {
+    while (balls.length < valueInput) {
       var size = random(10,20);
       var ball = new Ball(
         // ball position always drawn at least one ball width
